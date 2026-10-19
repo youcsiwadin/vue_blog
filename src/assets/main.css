@@ -1,0 +1,247 @@
+/* JAVA博客网站 全局样式 */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+  color: #303133;
+  background-color: #f5f7fa;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+a {
+  color: #409eff;
+  text-decoration: none;
+}
+
+.page-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px 24px;
+}
+
+.page-title {
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   博客站点通用样式：模块背景统一使用 80% 透明度
+   ============================================================ */
+
+.blog-card {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.blog-chip {
+  display: inline-block;
+  margin: 0 6px 6px 0;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background-color: rgba(64, 158, 255, 0.12);
+  color: var(--el-color-primary);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.blog-chip:hover {
+  background-color: rgba(64, 158, 255, 0.22);
+}
+
+.blog-chip--tag {
+  background-color: rgba(144, 147, 153, 0.12);
+  color: #606266;
+}
+
+.blog-chip--tag:hover {
+  background-color: rgba(144, 147, 153, 0.22);
+}
+
+/* ============================================================
+   夜间模式：博客系统所有页面白底变黑底、黑字变白字
+   （不影响博客管理系统）
+   ============================================================ */
+
+body .blog-shell.blog-night {
+  background-color: #0f0f0f;
+  color: #e5eaf3;
+
+  /* Element Plus 组件在夜间模式下的暗色变量（仅作用于博客内部） */
+  --el-bg-color: #1d1e1f;
+  --el-bg-color-page: #0f0f0f;
+  --el-bg-color-overlay: #1d1e1f;
+  --el-text-color-primary: #e5eaf3;
+  --el-text-color-regular: #cfd3dc;
+  --el-text-color-secondary: #a3a6ad;
+  --el-text-color-placeholder: #8d9095;
+  --el-border-color: #4c4d4f;
+  --el-border-color-light: #414243;
+  --el-border-color-lighter: #363637;
+  --el-border-color-extra-light: #2b2b2c;
+  --el-fill-color: #303030;
+  --el-fill-color-light: #262727;
+  --el-fill-color-lighter: #1d1d1d;
+  --el-fill-color-blank: #1d1e1f;
+  --el-mask-color: rgba(0, 0, 0, 0.8);
+}
+
+/* 模块卡片：白底 -> 半透明黑底 */
+body .blog-shell.blog-night .blog-card {
+  background-color: rgba(30, 30, 30, 0.85);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #e5eaf3;
+}
+
+/* 文字颜色：黑字 -> 白字 */
+body .blog-shell.blog-night .blog-article-item__title,
+body .blog-shell.blog-night .blog-page__title,
+body .blog-shell.blog-night .blog-section-title,
+body .blog-shell.blog-night .blog-panel__title,
+body .blog-shell.blog-night .author-head__name,
+body .blog-shell.blog-night .blog-author-card__name,
+body .blog-shell.blog-night .blog-author__name,
+body .blog-shell.blog-night .blog-cover__title,
+body .blog-shell.blog-night .blog-cover__subtitle,
+body .blog-shell.blog-night .blog-detail__title,
+body .blog-shell.blog-night .blog-article-box__title,
+body .blog-shell.blog-night .blog-article-box__cover-title,
+body .blog-shell.blog-night .blog-comments__title,
+body .blog-shell.blog-night .blog-comment__name,
+body .blog-shell.blog-night .blog-message__name,
+body .blog-shell.blog-night .blog-moment__author,
+body .blog-shell.blog-night .blog-nav__brand,
+body .blog-shell.blog-night .blog-nav__link,
+body .blog-shell.blog-night .blog-nav__nickname,
+body .blog-shell.blog-night .blog-nav__login,
+body .blog-shell.blog-night .blog-nav__icon,
+body .blog-shell.blog-night .blog-nav__user,
+body .blog-shell.blog-night .el-dropdown-link {
+  color: #e5eaf3;
+}
+
+body .blog-shell.blog-night .blog-article-item__meta,
+body .blog-shell.blog-night .blog-article-item__summary,
+body .blog-shell.blog-night .blog-article-box__meta,
+body .blog-shell.blog-night .blog-article-box__content,
+body .blog-shell.blog-night .blog-detail__meta,
+body .blog-shell.blog-night .blog-panel__text,
+body .blog-shell.blog-night .blog-notice-board,
+body .blog-shell.blog-night .blog-comment__content,
+body .blog-shell.blog-night .blog-comment__time,
+body .blog-shell.blog-night .blog-message__content,
+body .blog-shell.blog-night .blog-message__time,
+body .blog-shell.blog-night .blog-moment__content,
+body .blog-shell.blog-night .blog-moment__time,
+body .blog-shell.blog-night .blog-author__stats,
+body .blog-shell.blog-night .blog-author__label,
+body .blog-shell.blog-night .author-head__desc,
+body .blog-shell.blog-night .author-head__stats,
+body .blog-shell.blog-night .blog-author-card__count,
+body .blog-shell.blog-night .blog-page__subtitle,
+body .blog-shell.blog-night .blog-cover__scroll,
+body .blog-shell.blog-night .blog-author__empty,
+body .blog-shell.blog-night .blog-comments__count,
+body .blog-shell.blog-night .blog-comments__lock-tip,
+body .blog-shell.blog-night .admin-panel__count--zero,
+body .blog-shell.blog-night .blog-footer,
+body .blog-shell.blog-night .blog-author-box__countdown {
+  color: #cfd3dc;
+}
+
+body .blog-shell.blog-night .blog-article-box,
+body .blog-shell.blog-night .blog-detail {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 文章模块封面（模块内图片区域）：浅色底 -> 深色底 */
+body .blog-shell.blog-night .blog-article-item__cover,
+body .blog-shell.blog-night .blog-article-box__cover {
+  background-color: #1a1a1a;
+}
+
+/* 封面叠加层文字：提高选择器权重，避免被组件内的 scoped 样式覆盖 */
+body .blog-shell.blog-night .blog-article-item__overlay .blog-article-item__title,
+body .blog-shell.blog-night .blog-article-item__overlay .blog-article-item__summary {
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.85);
+}
+
+body .blog-shell.blog-night .blog-article-item__overlay .blog-article-item__meta,
+body .blog-shell.blog-night .blog-article-item__overlay .blog-article-item__summary {
+  color: #cfd3dc;
+}
+
+body .blog-shell.blog-night .blog-article-box__cover-title {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+}
+
+/* 公告栏下方搜索按钮：夜间反转为深底白字 */
+body .blog-shell.blog-night .blog-panel__search-btn {
+  background-color: #262727;
+  border-color: #4c4d4f;
+  color: #e5eaf3;
+}
+
+/* 评论输入区与分隔线 */
+body .blog-shell.blog-night .blog-comments__form {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body .blog-shell.blog-night .blog-comment {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+body .blog-shell.blog-night .el-divider {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* 左侧快捷管理弹窗 */
+body .blog-shell.blog-night .admin-panel__trigger,
+body .blog-shell.blog-night .admin-panel__drawer {
+  background-color: rgba(30, 30, 30, 0.9);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #e5eaf3;
+}
+
+body .blog-shell.blog-night .admin-panel__item {
+  color: #e5eaf3;
+}
+
+body .blog-shell.blog-night .admin-panel__header,
+body .blog-shell.blog-night .admin-panel__close {
+  color: #a3a6ad;
+}
+
+/* 顶部导航栏搜索框 */
+body .blog-shell.blog-night .blog-nav__search {
+  background-color: rgba(30, 30, 30, 0.9);
+  border-color: #4c4d4f;
+  color: #e5eaf3;
+}
+
+/* 标签块 */
+body .blog-shell.blog-night .blog-chip {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #e5eaf3;
+}
+
+body .blog-shell.blog-night .blog-chip--tag {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #cfd3dc;
+}
