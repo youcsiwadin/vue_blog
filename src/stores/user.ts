@@ -1,9 +1,14 @@
 import { computed, reactive } from 'vue'
 
-import { getCurrentUser, login as loginApi, register as registerApi } from '@/api/user'
+import {
+  getCurrentUser,
+  login as loginApi,
+  register as registerApi,
+  registerAdmin as registerAdminApi,
+} from '@/api/user'
 import { TOKEN_STORAGE_KEY } from '@/api/request'
 import { canEnterAdmin, canWriteArticle, isAdminRole, saveStoredRole } from '@/utils/role'
-import type { LoginPayload, RegisterPayload, UserInfo } from '@/types/api'
+import type { AdminRegisterPayload, LoginPayload, RegisterPayload, UserInfo } from '@/types/api'
 
 const state = reactive({
   token: localStorage.getItem(TOKEN_STORAGE_KEY) ?? '',
@@ -53,6 +58,16 @@ async function register(payload: RegisterPayload): Promise<UserInfo> {
   return user
 }
 
+/** 首次管理员注册并自动登录 */
+async function registerAdmin(payload: AdminRegisterPayload): Promise<UserInfo> {
+  const data = await registerAdminApi(payload)
+  setToken(data.token)
+  state.user = data.user
+  state.loaded = true
+  saveStoredRole(data.user.role)
+  return data.user
+}
+
 /** 拉取当前登录用户信息（用于刷新页面后恢复登录态） */
 async function ensureUserLoaded(): Promise<void> {
   if (!state.token || state.loaded) {
@@ -85,6 +100,7 @@ export function useUserStore() {
     canUseAdmin,
     login,
     register,
+    registerAdmin,
     logout,
     ensureUserLoaded,
     setUser,

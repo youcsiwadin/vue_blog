@@ -21,7 +21,7 @@ export interface UserInfo {
   email: string | null
   avatar: string | null
   status: number
-  /** 角色：1管理员，2作者，3订阅者，4游客 */
+  /** 角色：1管理员，2作者，3订阅者 */
   role: number
   /** 博主名字（博客展示用，可空） */
   bloggerName: string | null
@@ -49,6 +49,14 @@ export interface RegisterPayload {
   email?: string
 }
 
+/** 首次管理员注册请求参数 */
+export interface AdminRegisterPayload {
+  username: string
+  password: string
+  nickname?: string
+  email: string
+}
+
 /** 文章数据 */
 export interface Article {
   id: number
@@ -59,9 +67,9 @@ export interface Article {
   title: string
   summary: string
   content?: string | null
-  /** 附加内容（仅订阅者及以上权限用户可见，游客与未登录用户为 null） */
+  /** 附加内容（仅订阅者及以上登录用户可见，未登录用户为 null） */
   extraContent?: string | null
-  /** 附加内容查看权限：1仅管理员，2作者及以上，3订阅者及以上，4游客及以上 */
+  /** 附加内容查看权限：1仅管理员，2作者及以上，3订阅者及以上 */
   extraViewLevel?: number
   /** 该文章存在附加内容但当前用户权限不足（为 true 时标题可见、内容不可见） */
   extraLocked?: boolean
@@ -129,7 +137,7 @@ export interface ArticlePayload {
   content: string
   /** 附加内容（选填，仅订阅者及以上权限用户可在文章页面看到；快速草稿等场景可不传） */
   extraContent?: string
-  /** 附加内容查看权限：1仅管理员，2作者及以上，3订阅者及以上，4游客及以上 */
+  /** 附加内容查看权限：1仅管理员，2作者及以上，3订阅者及以上 */
   extraViewLevel?: number
   /** 附加内容附件对应的媒体库文件ID列表 */
   extraFileIds?: number[]

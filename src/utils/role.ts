@@ -1,8 +1,7 @@
-/** 角色定义：1管理员，2作者，3订阅者，4游客 */
+/** 角色定义：1管理员，2作者，3订阅者 */
 export const ROLE_ADMIN = 1
 export const ROLE_AUTHOR = 2
 export const ROLE_SUBSCRIBER = 3
-export const ROLE_GUEST = 4
 
 /** 角色存放在 localStorage 的键（供路由守卫同步读取） */
 export const ROLE_STORAGE_KEY = 'java_blog_role'
@@ -11,7 +10,6 @@ const ROLE_LABELS: Record<number, string> = {
   [ROLE_ADMIN]: '管理员',
   [ROLE_AUTHOR]: '作者',
   [ROLE_SUBSCRIBER]: '订阅者',
-  [ROLE_GUEST]: '游客',
 }
 
 export function roleLabel(role?: number | null): string {
@@ -48,7 +46,7 @@ export function canWriteArticle(role?: number | null): boolean {
   return role === ROLE_ADMIN || role === ROLE_AUTHOR
 }
 
-/** 可进入博客管理系统：管理员、作者、订阅者（游客仅能访问博客） */
+/** 可进入博客管理系统：管理员、作者、订阅者 */
 export function canEnterAdmin(role?: number | null): boolean {
   return role === ROLE_ADMIN || role === ROLE_AUTHOR || role === ROLE_SUBSCRIBER
 }
@@ -58,7 +56,6 @@ export function canEnterAdmin(role?: number | null): boolean {
  * 文章可设置为「该等级及以上」的用户可查看附加内容。
  */
 export const EXTRA_VIEW_LEVELS = [
-  { value: ROLE_GUEST, label: '游客及以上可查看' },
   { value: ROLE_SUBSCRIBER, label: '订阅者及以上可查看' },
   { value: ROLE_AUTHOR, label: '作者及以上可查看' },
   { value: ROLE_ADMIN, label: '仅管理员可查看' },

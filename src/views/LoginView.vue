@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
 
 import { useUserStore } from '@/stores/user'
+import { fetchAdminExists } from '@/api/user'
 
 const route = useRoute()
 const router = useRouter()
@@ -14,6 +15,7 @@ const activeTab = ref<'login' | 'register'>('login')
 const loginFormRef = ref<FormInstance>()
 const registerFormRef = ref<FormInstance>()
 const submitting = ref(false)
+const adminExists = ref<boolean | null>(null)
 
 const loginForm = reactive({
   username: '',
@@ -103,6 +105,18 @@ async function handleRegister(): Promise<void> {
     submitting.value = false
   }
 }
+
+function goAdminRegister(): void {
+  void router.push({ name: 'admin-register' })
+}
+
+onMounted(async () => {
+  try {
+    adminExists.value = await fetchAdminExists()
+  } catch {
+    adminExists.value = null
+  }
+})
 </script>
 
 <template>
@@ -180,6 +194,9 @@ async function handleRegister(): Promise<void> {
             >
               注册并登录
             </el-button>
+            <div v-if="adminExists === false" class="login-card__admin-tip">
+              当前没有管理员用户，<el-button link type="primary" @click="goAdminRegister">点击</el-button>注册管理员
+            </div>
           </el-form>
         </el-tab-pane>
       </el-tabs>
@@ -215,5 +232,13 @@ async function handleRegister(): Promise<void> {
 
 .login-card__submit {
   width: 100%;
+}
+
+.login-card__admin-tip {
+  margin-top: 8px;
+  color: #e6a23c;
+  font-size: 13px;
+  line-height: 1.8;
+  text-align: center;
 }
 </style>

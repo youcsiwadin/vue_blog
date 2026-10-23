@@ -29,7 +29,7 @@ const articleAuthorCount = computed(() => article.value?.authorArticleCount ?? 0
 
 /**
  * 评论者名称：已登录用户由权限决定，不能在评论中自行修改——
- * 管理员 / 作者 使用博主名字，订阅者 / 游客 使用本人昵称。
+ * 管理员 / 作者 使用博主名字，订阅者使用本人昵称。
  */
 const commenterName = computed(() => {
   if (!isLoggedIn.value) {
@@ -181,6 +181,10 @@ async function loadComments(): Promise<void> {
 }
 
 async function handleSubmitComment(): Promise<void> {
+  if (!isLoggedIn.value) {
+    goLoginForComment()
+    return
+  }
   const valid = await commentFormRef.value?.validate().catch(() => false)
   if (!valid) {
     return
@@ -215,6 +219,11 @@ function goBack(): void {
   void router.push({ name: 'blog-articles' })
 }
 
+/** 未登录时点击评论区域的「登录」进入登录页，并在登录后回到当前文章 */
+function goLoginForComment(): void {
+  void router.push({ name: 'login', query: { redirect: route.fullPath } })
+}
+
 /** 点赞：未登录时引导登录，已登录时按当前状态调用点赞 / 取消点赞接口 */
 const liking = ref(false)
 
@@ -224,7 +233,6 @@ async function handleToggleLike(): Promise<void> {
   }
   if (!isLoggedIn.value) {
     ElMessage.warning('请先登录后再点赞')
-    void router.push({ name: 'login', query: { redirect: route.fullPath } })
     return
   }
   const target = !article.value.liked
@@ -352,6 +360,7 @@ watch(articleId, () => {
 
           <template v-if="commentEnabled">
             <el-form
+              v-if="isLoggedIn"
               ref="commentFormRef"
               :model="commentForm"
               :rules="commentRules"
@@ -399,35 +408,38 @@ watch(articleId, () => {
               </el-button>
             </el-form>
 
-            <div v-loading="commentLoading" class="blog-comments__list">
-              <el-empty v-if="!comments.length && !commentLoading" description="还没有评论，来抢沙发吧" />
-              <div v-for="item in comments" :key="item.id" class="blog-comment">
-                <el-avatar :size="34" class="blog-comment__avatar">{{ item.nickname.charAt(0) }}</el-avatar>
-                <div class="blog-comment__body">
-                  <div class="blog-comment__head">
-                    <span class="blog-comment__name">{{ item.nickname }}</span>
-                    <el-tag v-if="item.userId" size="small" type="success">已登录</el-tag>
-                    <el-tag v-else size="small" type="info">游客</el-tag>
-                    <span class="blog-comment__time">{{ formatTime(item.createTime) }}</span>
-                  </div>
-                  <p class="blog-comment__content">{{ item.content }}</p>
-                </div>
-              </div>
-            </div>
-
-            <div v-if="commentTotal > commentQuery.pageSize" class="blog-comments__pagination">
-              <el-pagination
-                background
-                layout="prev, pager, next"
-                :total="commentTotal"
-                :current-page="commentQuery.page"
-                :page-size="commentQuery.pageSize"
-                @current-change="handleCommentPageChange"
-              />
+            <div v-else class="blog-comments__login-tip">
+              请<button type="button" class="blog-comments__login-link" @click="goLoginForComment">登录</button>后再进行评论
             </div>
           </template>
 
           <el-alert v-else title="该文章已关闭评论" type="info" :closable="false" show-icon />
+
+          <div v-loading="commentLoading" class="blog-comments__list">
+            <el-empty v-if="!comments.length && !commentLoading" description="还没有评论，来抢沙发吧" />
+            <div v-for="item in comments" :key="item.id" class="blog-comment">
+              <el-avatar :size="34" class="blog-comment__avatar">{{ item.nickname.charAt(0) }}</el-avatar>
+              <div class="blog-comment__body">
+                <div class="blog-comment__head">
+                  <span class="blog-comment__name">{{ item.nickname }}</span>
+                  <el-tag v-if="item.userId" size="small" type="success">已登录</el-tag>
+                  <span class="blog-comment__time">{{ formatTime(item.createTime) }}</span>
+                </div>
+                <p class="blog-comment__content">{{ item.content }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div v-if="commentTotal > commentQuery.pageSize" class="blog-comments__pagination">
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="commentTotal"
+              :current-page="commentQuery.page"
+              :page-size="commentQuery.pageSize"
+              @current-change="handleCommentPageChange"
+            />
+          </div>
         </section>
       </template>
 
@@ -515,6 +527,30 @@ watch(articleId, () => {
   color: #c0c4cc;
   font-size: 12px;
   line-height: 1.5;
+}
+
+/* 未登录评论提示：仅替换填写区域，不隐藏已有评论 */
+.blog-comments__login-tip {
+  margin-bottom: 20px;
+  padding: 18px 20px;
+  border: 1px dashed #dcdfe6;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: #606266;
+  font-size: 14px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.blog-comments__login-link {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--blog-primary-color, #409eff);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 @media (max-width: 900px) {

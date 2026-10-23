@@ -1,5 +1,6 @@
 import { requestData } from '@/api/request'
 import type {
+  AdminRegisterPayload,
   LoginData,
   LoginPayload,
   PageResult,
@@ -14,6 +15,23 @@ import type {
 export function register(payload: RegisterPayload): Promise<UserInfo> {
   return requestData<UserInfo>({
     url: '/users/register',
+    method: 'post',
+    data: payload,
+  })
+}
+
+/** 检测是否存在启用中的管理员 GET /api/users/admin-exists */
+export function fetchAdminExists(): Promise<boolean> {
+  return requestData<boolean>({
+    url: '/users/admin-exists',
+    method: 'get',
+  })
+}
+
+/** 首次管理员注册 POST /api/users/register-admin */
+export function registerAdmin(payload: AdminRegisterPayload): Promise<LoginData> {
+  return requestData<LoginData>({
+    url: '/users/register-admin',
     method: 'post',
     data: payload,
   })

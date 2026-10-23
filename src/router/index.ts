@@ -137,6 +137,12 @@ const routes: RouteRecordRaw[] = [
     meta: { title: '登录 / 注册', layout: 'plain' },
   },
   {
+    path: '/register-admin',
+    name: 'admin-register',
+    component: () => import('@/views/AdminRegisterView.vue'),
+    meta: { title: '注册成为管理员', layout: 'plain' },
+  },
+  {
     // 博客站点（前端展示页面）
     path: '/blog',
     component: () => import('@/views/blog/BlogLayout.vue'),
@@ -207,7 +213,7 @@ router.beforeEach((to) => {
       ElMessage.warning('请先登录后再继续操作')
       return { name: 'login', query: { redirect: to.fullPath } }
     }
-    // 角色权限校验：无权限时跳转到该角色可用页面（游客跳回博客）
+    // 角色权限校验：无权限时跳转到该角色可用页面
     const allowed = to.meta.roles as number[] | undefined
     const role = getStoredRole()
     if (allowed && (role === null || !allowed.includes(role))) {

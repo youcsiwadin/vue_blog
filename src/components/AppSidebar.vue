@@ -12,7 +12,7 @@ const activeMenu = computed(() => route.path)
 </script>
 
 <template>
-  <!-- 游客（角色 4）不显示后台菜单 -->
+  <!-- 未登录用户不显示后台菜单 -->
   <aside v-if="canUseAdmin" class="app-sidebar">
     <el-menu :default-active="activeMenu" router unique-opened class="app-sidebar__menu">
       <el-menu-item v-if="isAdmin" index="/">首页</el-menu-item>

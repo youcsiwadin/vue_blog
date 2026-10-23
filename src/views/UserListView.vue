@@ -6,7 +6,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { deleteUser, fetchUserPage, updateUserRole, updateUserStatus } from '@/api/user'
 import { useRefreshSignal } from '@/composables/useRefresh'
 import { useUserStore } from '@/stores/user'
-import { ROLE_ADMIN, ROLE_AUTHOR, ROLE_GUEST, ROLE_SUBSCRIBER, roleLabel } from '@/utils/role'
+import { ROLE_ADMIN, ROLE_AUTHOR, ROLE_SUBSCRIBER, roleLabel } from '@/utils/role'
 import type { UserInfo } from '@/types/api'
 
 const router = useRouter()
@@ -22,12 +22,11 @@ const query = reactive({
   keyword: '',
 })
 
-/** 四个用户角色 */
+/** 三个用户角色 */
 const roleOptions = [
   { value: ROLE_ADMIN, label: '管理员', tip: '最高权限，可使用所有功能，包括删除其他用户账号' },
   { value: ROLE_AUTHOR, label: '作者', tip: '文章（所有文章 / 写文章）、我的评论、个人资料' },
   { value: ROLE_SUBSCRIBER, label: '订阅者', tip: '我的评论、个人资料' },
-  { value: ROLE_GUEST, label: '游客', tip: '仅可访问博客并发表评论' },
 ]
 
 async function loadUsers(): Promise<void> {

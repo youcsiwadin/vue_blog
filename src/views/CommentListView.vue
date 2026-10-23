@@ -387,7 +387,6 @@ watch(refreshTick, () => {
           <el-tag v-if="row.userId" type="success" size="small" :title="`已登录账号：${row.userName}`">
             已登录
           </el-tag>
-          <el-tag v-else type="info" size="small">游客</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="评论时间" width="120" align="center">

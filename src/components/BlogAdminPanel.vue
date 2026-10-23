@@ -15,7 +15,7 @@ const pendingCount = ref(0)
 
 const role = computed(() => account.user?.role ?? null)
 
-/** 左弹窗仅对可进入管理系统的角色显示（管理员 / 作者 / 订阅者），游客不显示 */
+/** 左弹窗仅对可进入管理系统的角色显示（管理员 / 作者 / 订阅者） */
 const visible = computed(() => canEnterAdmin(role.value))
 
 /** 写文章按钮：仅管理员与作者（订阅者不显示） */
